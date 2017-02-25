@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2016-2017 Scott Mitchell.
+ * All rights reserved.
+ *
+ * Licenced under the BSD 3-Clause licence (the "Licence"); you may not use
+ * this file except in compliance with the Licence. You may obtain a copy of
+ * the Licence from the LICENCE file in the top level of this software
+ * distribution or from:
+ *
+ *	 https://opensource.org/licenses/BSD-3-Clause
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+using rpi.blinkt.BlinktHelper;
+
+monitor BlinktPlugin_005 {
+
+	import "BlinktPlugin" as bp;
+	BlinktHelper bh;
+
+	action onload {
+		bp.reset();
+		bp.refresh();
+		boolean ignored := bp.enableDebug(true);
+
+		step1();
+	}
+
+	action step1() {
+		// Step up through all the grayscales using out of range
+		// colour and intensity settings. Visible output should be 8
+		// cycles through the grayscale range with abrupt transitions
+		// from white->black. This step uses the plugin directly.
+		bp.setIntensityAll(1.0);
+		integer v := -1024;
+		while v < 1024 {
+			bp.setAll(v, v, v, v.toFloat());
+			bp.refresh();
+			bp.delay(10);
+			v := v + 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 1 complete";
+			step2();
+		}
+	}
+
+	action step2() {
+		// Step down through all the grayscales using out of range
+		// colour and intensity settings. Visible output should be 8
+		// cycles through the grayscale range with abrupt transitions
+		// from black->white. This step uses the helper object.
+		bh.setAllI(1.0);
+		integer v := 1023;
+		while v > -1024 {
+			// Little hack to make sure we don't set the
+			// intensity to zero then -1, so that the last
+			// four cycle are visible.
+			float i := v.toFloat();
+			if i = 0.0 then { i := -1.0; }
+			bh.setAllRGBI(v, v, v, i);
+			bh.refresh();
+			bh.delay(10);
+			v := v - 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 2 complete";
+			step3();
+		}
+	}
+
+	action step3() {
+		// Turn everything off and finish the test
+		bp.reset();
+		bp.refresh();
+		log "Test step 3 complete";
+		log "TEST COMPLETE";
+	}
+}

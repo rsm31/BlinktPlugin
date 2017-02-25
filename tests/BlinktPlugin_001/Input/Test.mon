@@ -1,0 +1,129 @@
+/*
+ * Copyright (c) 2016-2017 Scott Mitchell.
+ * All rights reserved.
+ *
+ * Licenced under the BSD 3-Clause licence (the "Licence"); you may not use
+ * this file except in compliance with the Licence. You may obtain a copy of
+ * the Licence from the LICENCE file in the top level of this software
+ * distribution or from:
+ *
+ *	 https://opensource.org/licenses/BSD-3-Clause
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+monitor BlinktPlugin_001 {
+
+	import "BlinktPlugin" as bp;
+
+	action onload {
+		bp.reset();
+		bp.refresh();
+		boolean ignored := bp.enableDebug(true);
+
+		step1();
+	}
+
+	action step1() {
+		// Set LEDs to rainbow colours + white
+		bp.setLED(0, 0xff, 0xff, 0xff, 1.0); // white
+		bp.setLED(1, 0xff, 0x00, 0x00, 1.0); // red
+		bp.setLED(2, 0xff, 0x7f, 0x00, 1.0); // orange
+		bp.setLED(3, 0xff, 0xff, 0x00, 1.0); // yellow
+		bp.setLED(4, 0x00, 0xff, 0x00, 1.0); // green
+		bp.setLED(5, 0x00, 0x00, 0xff, 1.0); // blue
+		bp.setLED(6, 0x4b, 0x00, 0x82, 1.0); // indigo
+		bp.setLED(7, 0xee, 0x82, 0xee, 1.0); // violet
+		bp.refresh();
+
+		on wait(2.0) {
+			log "Test step 1 complete";
+			step2();
+		}
+	}
+
+	action step2() {
+		// Step intensity down
+		float i := 1.0;
+		while i >= 0.0 {
+			bp.setIntensityAll(i);
+			bp.refresh();
+			bp.delay(25);
+			i := i - 0.01;
+		}
+
+		on wait(2.0) {
+			log "Test step 2 complete";
+			step3();
+		}
+	}
+
+	action step3() {
+		// Step intensity back up again
+		float i := 0.0;
+		while i <= 1.0 {
+			integer n := 0;
+			while n < 8 {
+				bp.setIntensity(n, i);
+				n := n + 1;
+			}
+			bp.refresh();
+			bp.delay(25);
+			i := i + 0.01;
+		}
+
+		on wait(2.0) {
+			log "Test step 3 complete";
+			step4();
+		}
+	}
+
+	action step4() {
+		// Step up through all the grayscale values
+		bp.setIntensityAll(1.0);
+		integer v := 0x00;
+		while v <= 0xff {
+			bp.setAll(v, v, v, -1.0);
+			bp.refresh();
+			bp.delay(10);
+			v := v + 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 4 complete";
+			step5();
+		}
+	}
+
+	action step5() {
+		// Step back down through the grays
+		integer v := 0xff;
+		while v >= 0x00 {
+			integer n := 0;
+			while n < 8 {
+				bp.setLED(n, v, v, v, -1.0);
+				n := n + 1;
+			}
+			bp.refresh();
+			bp.delay(10);
+			v := v - 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 5 complete";
+			step6();
+		}
+	}
+
+	action step6() {
+		// Turn everything off and finish the test
+		bp.reset();
+		bp.refresh();
+		log "Test step 6 complete";
+		log "TEST COMPLETE";
+	}
+}

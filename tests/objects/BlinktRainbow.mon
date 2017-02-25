@@ -1,0 +1,197 @@
+/*
+ * Copyright (c) 2016-2017 Scott Mitchell.
+ * All rights reserved.
+ *
+ * Licenced under the BSD 3-Clause licence (the "Licence"); you may not use
+ * this file except in compliance with the Licence. You may obtain a copy of
+ * the Licence from the LICENCE file in the top level of this software
+ * distribution or from:
+ *
+ *	 https://opensource.org/licenses/BSD-3-Clause
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+package rpi.blinkt;
+
+using com.apama.correlator.timeformat.TimeFormat;
+
+/**
+ * A red, green, blue colour triplet.
+ */
+event RGB {
+	/**
+	 * Red value (0-255)
+	 */
+	integer r;
+
+	/**
+	 * Green value (0-255)
+	 */
+	integer g;
+
+	/**
+	 * Blue value (0-255)
+	 */
+	integer b;
+}
+
+
+/**
+ * Display a scrolling rainbow on some or all of the Blinkt! LEDs. Colours are
+ * calculated in the HSV (hue, saturation, value) colour space with S and V
+ * fixed at 1, i.e. only the hue is varied. Multiple BlinktRainbow objects can
+ * be run in parallel (in the same or separate contexts) controlling different
+ * (contiguous) subsets of the Blinkt! LEDs. Behaviour is undefined if more
+ * than one BlinktRainbow is controlling the same LEDs simultaneously.
+ *
+ * Adapted from the Blinkt! rainbow sample distributed by Pimoroni.
+ *
+ * @see <a href="https://github.com/pimoroni/blinkt/blob/master/examples/rainbow.py">https://github.com/pimoroni/blinkt/blob/master/examples/rainbow.py</a>
+ * Blinkt rainbow sample on GitHub.
+ * @see <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a>
+ * Wikipedia documentation for the HSV colour space.
+ */
+event BlinktRainbow {
+
+	/** @private */
+	listener l;
+
+	/**
+	 * Start a rainbow running in the forward direction, i.e. LEDs
+	 * progress through the "ROYGBIV" rainbow colours (effectively moving
+	 * anti-clockwise around the HSV colour space with S and V fixed at 1)
+	 * as you move from left to right along the Blinkt!
+	 *
+	 * @param first Leftmost LED in the rainbow.
+	 * @param num Number of LEDs in the rainbow.
+	 * @param spacing Difference in hue (degrees) between each LED.
+	 * @param speed Rate of change (degrees/second) in hue for each LED.
+	 * @param intensity Global intensity setting for the LEDs.
+	 */
+	action goForward(integer first, integer num, float spacing, float speed, float intensity) {
+		BlinktHelper helper := new BlinktHelper;
+		float s := 360.0 / spacing;
+		float hue;
+
+		l.quit();
+		l := on all wait(0.1) {
+			hue := (TimeFormat.getSystemTime() * speed).fmod(360.0);
+			integer i := 0;
+			while i < num {
+				float offset := i.toFloat() * s;
+				float h := (hue + offset).fmod(360.0);
+				RGB rgb := HtoRGB(h);
+				helper.setRGBI(i + first, rgb.r, rgb.g, rgb.b, intensity);
+				i := i + 1;
+			}
+			helper.refresh();
+		}
+
+		log "Forward BlinktRainbow("
+			+first.toString()+", "
+			+num.toString()+", "
+			+spacing.toString()+", "
+			+speed.toString()+", "
+			+intensity.toString()
+			+") started";
+	}
+
+	/**
+	 * Start a rainbow running in the reverse direction, i.e. LEDs
+	 * progress through the "ROYGBIV" rainbow colours (effectively moving
+	 * anti-clockwise around the HSV colour space with S and V fixed at 1)
+	 * as you move from right to left along the Blinkt!
+	 *
+	 * @param first Leftmost LED in the rainbow.
+	 * @param num Number of LEDs in the rainbow.
+	 * @param spacing Difference in hue (degrees) between each LED.
+	 * @param speed Rate of change (degrees/second) in hue for each LED.
+	 * @param intensity Global intensity setting for the LEDs.
+	 */
+	action goReverse(integer first, integer num, float spacing, float speed, float intensity) {
+		BlinktHelper helper := new BlinktHelper;
+		float s := 360.0 / spacing;
+		float hue;
+
+		l.quit();
+		l := on all wait(0.1) {
+			hue := (TimeFormat.getSystemTime() * speed).fmod(360.0);
+			integer i := 1;
+			while i <= num {
+				float offset := i.toFloat() * s;
+				float h := (hue + offset).fmod(360.0);
+				RGB rgb := HtoRGB(h);
+				helper.setRGBI(first + num - i, rgb.r, rgb.g, rgb.b, intensity);
+				i := i + 1;
+			}
+			helper.refresh();
+		}
+
+		log "Reverse BlinktRainbow("
+			+first.toString()+", "
+			+num.toString()+", "
+			+spacing.toString()+", "
+			+speed.toString()+", "
+			+intensity.toString()
+			+") started";
+	}
+
+	/**
+	 * Stop any currently running rainbow.
+	 */
+	action stop() {
+		l.quit();
+		log "BlinktRainbow stopped";
+	}
+
+	/**
+	 * @private
+	 *
+	 * Simplified HSV->RGB calculation that assumes S=V=1.
+	 *
+	 * @param h The hue component of the HSV colour value.
+	 * @return The equivalent RGB colour value.
+	 */
+	action HtoRGB(float h) returns RGB {
+		float h2 := h / 60.0;
+		float x := 1.0 - float.abs(h2.fmod(2.0) - 1.0);
+		RGB rgb := new RGB;
+		if h2 <= 1.0 {
+			rgb.r := 255;
+			rgb.g := (255.0 * x).floor();
+			rgb.b := 0;
+		}
+		else if h2 <= 2.0 {
+			rgb.r := (255.0 * x).floor();
+			rgb.g := 255;
+			rgb.b := 0;
+		}
+		else if h2 <= 3.0 {
+			rgb.r := 0;
+			rgb.g := 255;
+			rgb.b := (255.0 * x).floor();
+		}
+		else if h2 <= 4.0 {
+			rgb.r := 0;
+			rgb.g := (255.0 * x).floor();
+			rgb.b := 255;
+		}
+		else if h2 <= 5.0 {
+			rgb.r := (255.0 * x).floor();
+			rgb.g := 0;
+			rgb.b := 255;
+		}
+		else {
+			rgb.r := 255;
+			rgb.g := 0;
+			rgb.b := (255.0 * x).floor();
+		}
+
+		return rgb;
+	}
+}

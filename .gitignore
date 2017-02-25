@@ -1,0 +1,5 @@
+blinkt_reset
+blinkt_test
+*.o
+*.so
+*.pyc

@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) 2016-2017 Scott Mitchell.
+ * All rights reserved.
+ *
+ * Licenced under the BSD 3-Clause licence (the "Licence"); you may not use
+ * this file except in compliance with the Licence. You may obtain a copy of
+ * the Licence from the LICENCE file in the top level of this software
+ * distribution or from:
+ *
+ *	 https://opensource.org/licenses/BSD-3-Clause
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+using rpi.blinkt.BlinktHelper;
+
+monitor BlinktPlugin_002 {
+
+	BlinktHelper bh;
+
+	action onload {
+		bh.reset();
+		bh.refresh();
+		boolean ignored := bh.enableDebug(true);
+
+		step1();
+	}
+
+	action step1() {
+		// Set LEDs to rainbow colours + white
+		bh.setRGBI(0, 0xff, 0xff, 0xff, 1.0); // white
+		bh.setRGBI(1, 0xff, 0x00, 0x00, 1.0); // red
+		bh.setRGBI(2, 0xff, 0x7f, 0x00, 1.0); // orange
+		bh.setRGBI(3, 0xff, 0xff, 0x00, 1.0); // yellow
+		bh.setRGBI(4, 0x00, 0xff, 0x00, 1.0); // green
+		bh.setRGBI(5, 0x00, 0x00, 0xff, 1.0); // blue
+		bh.setRGBI(6, 0x4b, 0x00, 0x82, 1.0); // indigo
+		bh.setRGBI(7, 0xee, 0x82, 0xee, 1.0); // violet
+		bh.refresh();
+
+		on wait(2.0) {
+			log "Test step 1 complete";
+			step2();
+		}
+	}
+
+	action step2() {
+		// Step intensity down
+		float i := 1.0;
+		while i >= 0.0 {
+			bh.setAllI(i);
+			bh.refresh();
+			bh.delay(25);
+			i := i - 0.01;
+		}
+
+		on wait(2.0) {
+			log "Test step 2 complete";
+			step3();
+		}
+	}
+
+	action step3() {
+		// Step intensity back up again
+		float i := 0.0;
+		while i <= 1.0 {
+			integer n := 0;
+			while n < 8 {
+				bh.setI(n, i);
+				n := n + 1;
+			}
+			bh.refresh();
+			bh.delay(25);
+			i := i + 0.01;
+		}
+
+		on wait(2.0) {
+			log "Test step 3 complete";
+			step4();
+		}
+	}
+
+	action step4() {
+		// Step up through all the grayscale values
+		bh.setAllI(1.0);
+		integer v := 0x00;
+		while v <= 0xff {
+			bh.setAllRGB(v, v, v);
+			bh.refresh();
+			bh.delay(10);
+			v := v + 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 4 complete";
+			step5();
+		}
+	}
+
+	action step5() {
+		// Step back down through the grays
+		integer v := 0xff;
+		while v >= 0x00 {
+			integer n := 0;
+			while n < 8 {
+				bh.setRGB(n, v, v, v);
+				n := n + 1;
+			}
+			bh.refresh();
+			bh.delay(10);
+			v := v - 1;
+		}
+
+		on wait(2.0) {
+			log "Test step 5 complete";
+			step6();
+		}
+	}
+
+	action step6() {
+		// Set all LEDs to rainbow colours + white
+		bh.setAllRGBI(0xff, 0xff, 0xff, 1.0); // white
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0xff, 0x00, 0x00, 0.7); // red
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0xff, 0x7f, 0x00, 0.6); // orange
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0xff, 0xff, 0x00, 0.5); // yellow
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0x00, 0xff, 0x00, 0.4); // green
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0x00, 0x00, 0xff, 0.3); // blue
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0x4b, 0x00, 0x82, 0.2); // indigo
+		bh.refresh();
+		bh.delay(1000);
+		bh.setAllRGBI(0xee, 0x82, 0xee, 0.1); // violet
+		bh.refresh();
+		bh.delay(1000);
+
+		on wait(2.0) {
+			log "Test step 6 complete";
+			step7();
+		}
+	}
+
+	action step7() {
+		// Turn everything off and finish the test
+		bh.reset();
+		bh.refresh();
+		log "Test step 7 complete";
+		log "TEST COMPLETE";
+	}
+}

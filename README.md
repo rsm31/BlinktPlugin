@@ -27,6 +27,7 @@ For more information on the Blinkt! hardware and other language APIs see:
 - [`blinkt_setup`](blinkt_setup) - Script to configure the Raspberry Pi GPIO pins for the Blinkt! hardware.
 - [`blinkt_reset.cpp`](blinkt_reset.cpp), [`blinkt_test.cpp`](blinkt_test.cpp) - Simple C++ programs using `blinkt_functions` to reset the Blinkt! or display some basic test patterns on the LEDs. The `blinkt_setup` script should be run before running either of these programs.
 - [`Makefile`](Makefile) - Build and install support for `blinkt_functions`, `BlinktPlugin`, test programs and documentation.
+- [`build.xml`](build.xml) - Ant script to build the ApamaDoc API documentation for the `BlinktHelper` object. 
 - [`tests/`](tests) - Tests and samples implemented as PySys test cases.
 - [`doc/`](doc) - API documentation for the `BlinktHelper` object.
 

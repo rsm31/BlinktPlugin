@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="yes"?>
+
+<!--
+Copyright (c) 2016-2017 Scott Mitchell.
+All rights reserved.
+
+Licenced under the BSD 3-Clause licence (the "Licence"); you may not use this
+file except in compliance with the Licence. You may obtain a copy of the
+Licence from the LICENCE file in the top level of this software distribution
+or from:
+
+	https://opensource.org/licenses/BSD-3-Clause
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+License for the specific language governing permissions and limitations under
+the License.
+-->
+
+<!-- PySys project file for BlinktPlugin tests -->
+
+<pysysproject>
+		
+	<!-- Get Apama home/work locations from the environment -->
+	<property environment="env"/>
+	<property name="APAMA_HOME" value="${env.APAMA_HOME}"/>
+	<property name="APAMA_WORK" value="${env.APAMA_WORK}"/>
+
+	<!-- Get project root directory into properties -->
+	<property root="rootdir"/>
+	<property name="ROOTDIR" value="${rootdir}"/>
+
+	<!-- Configuration for PySys and Apama extensions -->
+	<property name="shutdownApamaComponentsAfterTest" value="true"/>
+	<property name="verboseWaitForSignal" value="true"/>
+	<property name="defaultAbortOnError" value="true"/>
+	<property name="defaultApamaIgnoreExitStatus" value="false"/>
+
+	<!-- Add the src location (relative to the project root) to the python path -->
+	<path value="./src" relative="true"/>
+
+	<!-- Use the Apama test runner -->
+	<runner classname="ApamaRunner" module="apama.runner"/>
+
+</pysysproject>
