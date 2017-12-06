@@ -23,12 +23,14 @@
 #include <wiringPi.h>
 
 
+bool BlinktPlugin::initialised;
 unsigned BlinktPlugin::RefCount = 0;
 bool BlinktPlugin::ResetOnUnload = true;
 pthread_mutex_t BlinktPlugin::Mutex;
 
-// Constructor just does static mutex initialisation
+
 BlinktPlugin::BlinktPlugin(): base_plugin_t("BlinktPlugin") {
+	// Initialise the mutex if necessary
 	if (!initialised) {
 		initialised = true;
 		pthread_mutex_init(&Mutex, NULL);
@@ -122,15 +124,10 @@ bool BlinktPlugin::enableResetOnUnload(bool enable) {
 	return rval;
 }
 
-// Return the GPIO pin number of the Blinkt DAT (data) pin
 int64_t BlinktPlugin::getDAT() {
 	return BLINKT_DAT;
 }
 
-// Return the GPIO pin number of the Blinkt CLK (clock) pin
 int64_t BlinktPlugin::getCLK() {
 	return BLINKT_CLK;
 }
-
-
-APAMA_DECLARE_EPL_PLUGIN(BlinktPlugin)

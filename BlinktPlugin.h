@@ -78,27 +78,13 @@ class BlinktPlugin: public EPLPlugin<BlinktPlugin> {
 
 public:
 
+	// Default constructor
 	BlinktPlugin();
 	
+	// Default destructor
 	~BlinktPlugin();
 
-
-	/**
-	 * Increment the plugin reference count.
-	 */
-	static void IncrementRefCount();
-
-	/**
-	 * Decrement the plugin reference count. If the count reaches zero and
-	 * ResetOnUnload is true, this method will attempt to reset and
-	 * refresh the Blinkt LEDs. Note that this might fail if for example
-	 * the GPIO pin settings have been reset before it is called.
-	 */
-	static void DecrementRefCount();
-	
-	/**
-	 * XXX - doc me
-	 */
+	// Export some functions to EPL
 	static void initialize(base_plugin_t::method_data_t &md) {
 		md.registerMethod<decltype(&BlinktPlugin::setLED),
 			&BlinktPlugin::setLED>("setLED");
@@ -132,42 +118,42 @@ public:
 	 * changes internal plugin state. Use the refresh() function to
 	 * actually update the Blinkt LEDs.
 	 *
-	 * @param num (integer) The LED number to set, starting from zero.
-	 * @param red (integer) The red component of the RGB colour value.
-	 * @param green (integer) The green component of the RGB colour value.
-	 * @param blue (integer) The blue component of the RGB colour value.
-	 * @param intensity (float) The global intensity of the LED.
+	 * @param num The LED number to set, starting from zero.
+	 * @param red The red component of the RGB colour value.
+	 * @param green The green component of the RGB colour value.
+	 * @param blue The blue component of the RGB colour value.
+	 * @param intensity The global intensity of the LED.
 	 */
 	void setLED(int64_t num, int64_t red, int64_t green, int64_t blue, double intensity);
 
 	/**
-	 * Set the colour and intensity of all Blinkt LEDs. This function just
-	 * changes internal plugin state. Use the refresh() function to
+	 * Set the colour and intensity of all Blinkt LEDs. This function
+	 * just changes internal plugin state. Use the refresh() function to
 	 * actually update the Blinkt LEDs.
 	 *
-	 * @param red (integer) The red component of the RGB colour value.
-	 * @param green (integer) The green component of the RGB colour value.
-	 * @param blue (integer) The blue component of the RGB colour value.
-	 * @param intensity (float) The global intensity of the LEDs.
+	 * @param red The red component of the RGB colour value.
+	 * @param green The green component of the RGB colour value.
+	 * @param blue The blue component of the RGB colour value.
+	 * @param intensity The global intensity of the LEDs.
 	 */
 	void setAll(int64_t red, int64_t green, int64_t blue, double intensity);
 
 	/**
 	 * Set the intensity of a Blinkt LED, leaving the colour unchanged.
-	 * This function just changes internal plugin state. Use the refresh()
-	 * function to actually update the Blinkt LEDs.
+	 * This function just changes internal plugin state. Use the
+	 * refresh() function to actually update the Blinkt LEDs.
 	 *
-	 * @param num (integer) The LED number to set, starting from zero.
-	 * @param intensity (float) The global intensity of the LED.
+	 * @param num The LED number to set, starting from zero.
+	 * @param intensity The global intensity of the LED.
 	 */
 	void setIntensity(int64_t num, double intensity);
 
 	/**
-	 * Set the intensity of all Blinkt LEDs, leaving the colour unchanged.
-	 * This function just changes internal plugin state. Use the refresh()
-	 * function to actually update the Blinkt LEDs.
+	 * Set the intensity of all Blinkt LEDs, leaving the colour
+	 * unchanged. This function just changes internal plugin state. Use
+	 * the refresh() function to actually update the Blinkt LEDs.
 	 *
-	 * @param intensity (float) The global intensity of the LEDs.
+	 * @param intensity The global intensity of the LEDs.
 	 */
 	void setIntensityAll(double intensity);
 
@@ -179,8 +165,8 @@ public:
 	void refresh();
 
 	/**
-	 * Set all Blinkt LEDs to no colour (red, green and blue all zero) and
-	 * zero intensity. The refresh() action must be call to make the
+	 * Set all Blinkt LEDs to no colour (red, green and blue all zero)
+	 * and zero intensity. The refresh() action must be call to make the
 	 * effects of a reset visible.
 	 */
 	void reset();
@@ -188,7 +174,7 @@ public:
 	/**
 	 * Sleep (busy wait) for a specified time.
 	 *
-	 * @param millis (integer) The number of milliseconds to sleep for.
+	 * @param millis The number of milliseconds to sleep for.
 	 */
 	void delay(int64_t millis);
 
@@ -196,41 +182,46 @@ public:
 	 * Enable or disable debugging output from the plugin. When enabled,
 	 * debug output is sent to stdout.
 	 *
-	 * @param enable (boolean) True to enable debug output, false to
-	 * disable it.
-	 * @return (boolean) The previous value of the debug flag.
+	 * @param enable True to enable debug output, false to disable it.
+	 * @return The previous value of the debug flag.
 	 */
 	bool enableDebug(bool enable);
 
 	/**
-	 * XXX - doco for wrong function!
-	 * Enable or disable debugging output from the plugin. When enabled,
-	 * debug output is sent to stdout.
+	 * Enable or disable attempting to reset the Blinkt! LEDs when the
+	 * plugin reference count reaches zero. Note that this might fail if
+	 * for example the GPIO pin settings have been reset before the
+	 * attempt is made.
 	 *
-	 * @param enable (boolean) True to enable debug output, false to
+	 * @param enable True to enable attempted reset on unload, false to
 	 * disable it.
-	 * @return (boolean) The previous value of the debug flag.
+	 * @return The previous value of the reset on unload flag.
 	 */
 	bool enableResetOnUnload(bool enable);
 
 	/**
-	 * Get the GPIO pin number of the Blinkt DAT (data) pin. Can be passed
-	 * to the GPIO plugin Setup object to configure this pin as an output.
+	 * Get the GPIO pin number of the Blinkt DAT (data) pin. Can be
+	 * passed to the GPIO plugin Setup object to configure this pin as
+	 * an output.
 	 *
-	 * @return (integer) The GPIO number of the DAT pin.
+	 * @return The GPIO number of the DAT pin.
 	 */
 	int64_t getDAT();
 
 	/**
 	 * Get the GPIO pin number of the Blinkt CLK (clock) pin. Can be
-	 * passed to the GPIO plugin Setup object to configure this pin as an
-	 * output.
+	 * passed to the GPIO plugin Setup object to configure this pin as
+	 * an output.
 	 *
-	 * @return (integer) The GPIO number of the CLK pin.
+	 * @return The GPIO number of the CLK pin.
 	 */
 	int64_t getCLK();
 
+
 private:
+	// True if the global lock has been initialised
+	static bool initialised;
+
 	// Plugin reference count
 	static unsigned RefCount;
 
@@ -240,13 +231,21 @@ private:
 	// Global lock for all plugin functions
 	static pthread_mutex_t Mutex;
 
+
 	// Lock the global mutex
 	static void Lock();
 
 	// Unlock the global mutex
 	static void Unlock();
 
-	bool initialised;
+	// Increment the plugin reference count
+	static void IncrementRefCount();
+
+	// Decrement the plugin reference count
+	static void DecrementRefCount();
 };
+
+// Make the plugin available to EPL
+APAMA_DECLARE_EPL_PLUGIN(BlinktPlugin)
 
 #endif // _BLINKT_PLUGIN_H

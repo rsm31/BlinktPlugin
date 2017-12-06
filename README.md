@@ -40,13 +40,13 @@ This software requires the following:
 
 2. A Blinkt! RGB LED board attached to the Raspberry Pi GPIO connector.
 
-3. A Linux OS distribution compatible with Apama on the Raspberry Pi. This software was developed and tested on a Rapberry Pi 3 running Raspian (based on Debian Jessie, kernel version 4.4, gcc 4.9.2) but other distributions may also work. Raspian images can be downloaded from https://www.raspberrypi.org/downloads/
+3. A Linux OS distribution compatible with Apama on the Raspberry Pi. This software was developed and tested on a Rapberry Pi 3 running Raspian (based on Debian Stretch, kernel version 4.9.59, gcc 6.3.0) but other distributions should also work. Raspian images can be downloaded from https://www.raspberrypi.org/downloads/
 
 4. The `wiringPi` library, which should be available by default on any modern Linux distribution for the Raspberry Pi. If necessary `wiringPi` can be downloaded from from http://wiringpi.com/
 
-5. Apama version 9.12 or higher. The Apama Core Community Edition for Raspberry Pi can be downloaded from http://www.apamacommunity.com/downloads/.
+5. Apama version 10.1 or higher. The Apama Core Community Edition for Raspberry Pi can be downloaded from http://www.apamacommunity.com/downloads/.
 
-6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. The plugin should be built and installed in your Apama installation.
+6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. This version of the GPIOPlugin will also run on Apama 10.1. The plugin should be built and installed in your Apama installation.
 
 
 ## Build & Installation
