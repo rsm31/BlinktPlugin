@@ -21,10 +21,11 @@
 #
 
 LDLIBS = -lwiringPi
+PLUGIN_LIBS = -lapclient
 
 PLUGIN_CPPFLAGS = -I$(APAMA_HOME)/include
 PLUGIN_CXXFLAGS = --std=c++0x -fPIC
-PLUGIN_LDFLAGS = -shared
+PLUGIN_LDFLAGS = -shared -L$(APAMA_HOME)/lib
 
 LIBDIR = $(APAMA_WORK)/lib
 MONDIR = $(APAMA_WORK)/monitors
@@ -38,7 +39,7 @@ blinkt_test: blinkt_test.o blinkt_functions.o
 blinkt_reset: blinkt_reset.o blinkt_functions.o
 
 libBlinktPlugin.so: BlinktPlugin.o blinkt_functions.o
-	$(CC) $(PLUGIN_LDFLAGS) $+ $(LDLIBS) -o $@
+	$(CC) $(PLUGIN_LDFLAGS) $+ $(LDLIBS) $(PLUGIN_LIBS) -o $@
 
 
 blinkt_test.o: blinkt_test.cpp
