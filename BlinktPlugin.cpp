@@ -27,6 +27,20 @@ unsigned BlinktPlugin::RefCount = 0;
 bool BlinktPlugin::ResetOnUnload = true;
 pthread_mutex_t BlinktPlugin::Mutex;
 
+// Constructor just does static mutex initialisation
+BlinktPlugin::BlinktPlugin(): base_plugin_t("BlinktPlugin") {
+	if (!initialised) {
+		initialised = true;
+		pthread_mutex_init(&Mutex, NULL);
+	}
+	BlinktPlugin::IncrementRefCount();
+}
+
+BlinktPlugin::~BlinktPlugin() {
+	// Maybe reset Blinkt if refcount reaches zero
+	BlinktPlugin::DecrementRefCount();
+}
+
 
 void BlinktPlugin::Lock() {
 	pthread_mutex_lock(&Mutex);

@@ -63,9 +63,8 @@ using namespace com::apama::epl;
  * https://github.com/pimoroni/blinkt (Blinkt! GitHub project)
  * https://cdn-shop.adafruit.com/product-files/2343/APA102C.pdf (APA102 datasheet)
  *
- * The plugin implementation is entirely static and implemented within a class
- * only to keep things tidy by having it in its own namespace. The plugin is
- * thread-safe and can be accessed from multiple EPL contexts in parallel.
+ * The plugin is thread-safe and can be accessed from multiple EPL contexts in
+ * parallel.
  *
  * Before using the plugin to control the Blinkt, the appropriate GPIO pins
  * for the Blinkt data and clock lines must be configured as outputs. This
@@ -79,19 +78,9 @@ class BlinktPlugin: public EPLPlugin<BlinktPlugin> {
 
 public:
 
-	// Constructor just does static mutex initialisation
-	BlinktPlugin(): base_plugin_t("BlinktPlugin") {
-		if (!initialised) {
-			initialised = true;
-			pthread_mutex_init(&Mutex, NULL);
-		}
-		BlinktPlugin::IncrementRefCount();
-	}
-
-	~BlinktPlugin() {
-		// Maybe reset Blinkt if refcount reaches zero
-		BlinktPlugin::DecrementRefCount();
-	}
+	BlinktPlugin();
+	
+	~BlinktPlugin();
 
 
 	/**
