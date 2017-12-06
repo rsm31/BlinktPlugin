@@ -46,7 +46,7 @@ This software requires the following:
 
 5. Apama version 10.1 or higher. The Apama Core Community Edition for Raspberry Pi can be downloaded from http://www.apamacommunity.com/downloads/.
 
-6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. This version of the GPIOPlugin will also run on Apama 10.1. The plugin should be built and installed in your Apama installation.
+6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. This version of the GPIOPlugin will also run on Apama 10.1. An experimental version of the plugin for Apama 10.1 can also be found at https://github.com/CallumAttryde/apama_GPIO. The plugin should be built and installed in your Apama installation.
 
 
 ## Build & Installation
