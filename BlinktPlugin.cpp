@@ -23,17 +23,16 @@
 #include <wiringPi.h>
 
 
-bool BlinktPlugin::initialised;
+bool BlinktPlugin::initialised = false;
 unsigned BlinktPlugin::RefCount = 0;
 bool BlinktPlugin::ResetOnUnload = true;
-pthread_mutex_t BlinktPlugin::Mutex;
+std::mutex BlinktPlugin::Mutex;
 
 
 BlinktPlugin::BlinktPlugin(): base_plugin_t("BlinktPlugin") {
-	// Initialise the mutex if necessary
+	// No one-off initialisation needed currently
 	if (!initialised) {
 		initialised = true;
-		pthread_mutex_init(&Mutex, NULL);
 	}
 	BlinktPlugin::IncrementRefCount();
 }
@@ -44,21 +43,14 @@ BlinktPlugin::~BlinktPlugin() {
 }
 
 
-void BlinktPlugin::Lock() {
-	pthread_mutex_lock(&Mutex);
-}
-
-void BlinktPlugin::Unlock() {
-	pthread_mutex_unlock(&Mutex);
-}
-
-
 void BlinktPlugin::IncrementRefCount() {
+	std::lock_guard<std::mutex> lock(Mutex);
 	RefCount++;
 }
 
 // Reset Blinkt when refcount reaches zero, if enabled
 void BlinktPlugin::DecrementRefCount() {
+	std::lock_guard<std::mutex> lock(Mutex);
 	if (RefCount > 0 && --RefCount == 0 && ResetOnUnload) {
 		blinkt_reset();
 		blinkt_refresh();
@@ -70,39 +62,33 @@ void BlinktPlugin::DecrementRefCount() {
 // Mostly just map through to wiringPi or blinkt_functions
 
 void BlinktPlugin::setLED(int64_t num, int64_t red, int64_t green, int64_t blue, double intensity) {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_set_led(num, red, green, blue, intensity);
-	Unlock();
 }
 
 void BlinktPlugin::setAll(int64_t red, int64_t green, int64_t blue, double intensity) {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_set_all(red, green, blue, intensity);
-	Unlock();
 }
 
 void BlinktPlugin::setIntensity(int64_t num, double intensity) {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_set_intensity(num, intensity);
-	Unlock();
 }
 
 void BlinktPlugin::setIntensityAll(double intensity) {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_set_intensity(intensity);
-	Unlock();
 }
 
 void BlinktPlugin::refresh() {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_refresh();
-	Unlock();
 }
 
 void BlinktPlugin::reset() {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	blinkt_reset();
-	Unlock();
 }
 
 void BlinktPlugin::delay(int64_t millis) {
@@ -110,17 +96,14 @@ void BlinktPlugin::delay(int64_t millis) {
 }
 
 bool BlinktPlugin::enableDebug(bool enable) {
-	Lock();
-	bool rval = blinkt_enable_debug(enable);
-	Unlock();
-	return rval;
+	std::lock_guard<std::mutex> lock(Mutex);
+	return blinkt_enable_debug(enable);
 }
 
 bool BlinktPlugin::enableResetOnUnload(bool enable) {
-	Lock();
+	std::lock_guard<std::mutex> lock(Mutex);
 	bool rval = ResetOnUnload;
 	ResetOnUnload = enable;
-	Unlock();
 	return rval;
 }
 

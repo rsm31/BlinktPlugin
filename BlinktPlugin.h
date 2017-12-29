@@ -20,7 +20,8 @@
 #define _BLINKT_PLUGIN_H
 
 #include <epl_plugin.hpp>
-#include <pthread.h>
+#include <thread>
+#include <mutex>
 
 using namespace com::apama::epl;
 
@@ -229,14 +230,8 @@ private:
 	static bool ResetOnUnload;
 
 	// Global lock for all plugin functions
-	static pthread_mutex_t Mutex;
+	static std::mutex Mutex;
 
-
-	// Lock the global mutex
-	static void Lock();
-
-	// Unlock the global mutex
-	static void Unlock();
 
 	// Increment the plugin reference count
 	static void IncrementRefCount();
