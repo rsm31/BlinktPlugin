@@ -20,6 +20,17 @@
 # Makefile for the BlinktPlugin and associated support code.
 #
 
+# Make sure the required Apama envars have been defined
+ifndef APAMA_HOME
+$(warning Did you remember to source the apama_env script?)
+$(error APAMA_HOME is not defined)
+endif
+ifndef APAMA_WORK
+$(warning Did you remember to source the apama_env script?)
+$(error APAMA_WORK is not defined)
+endif
+
+
 LDLIBS = -lwiringPi
 PLUGIN_LIBS = -lapclient
 
