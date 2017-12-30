@@ -28,11 +28,19 @@ from os.path import join
 ApamaHomeMonitors = join(PROJECT.APAMA_HOME, 'monitors')
 ApamaWorkMonitors = join(PROJECT.APAMA_WORK, 'monitors')
 BlinktTestObjects = join(PROJECT.ROOTDIR, 'objects')
+BlinktProjectDir = join(PROJECT.ROOTDIR, '..')
 
 class BlinktBaseTest(BaseTest):
 
 	def __init__(self, descriptor, outdir, runner):
 		BaseTest.__init__(self, descriptor, outdir, runner)
+
+		# Load the plugin and wrapper from the build or install
+		if hasattr(self, 'TEST_AGAINST_INSTALL'):
+			self.BlinktMonitors = ApamaWorkMonitors
+		else:
+			self.BlinktMonitors = BlinktProjectDir
+			os.environ["LD_LIBRARY_PATH"] = BlinktProjectDir + os.pathsep + os.environ["LD_LIBRARY_PATH"]
 
 		# Initialise a correlator with the Blinkt plugin, the plugin
 		# wrapper and other required supporting code.
@@ -44,7 +52,7 @@ class BlinktBaseTest(BaseTest):
 		self.correlator.injectEPL(filenames=[
 			join(ApamaHomeMonitors, 'TimeFormatEvents.mon'),
 			join(ApamaWorkMonitors, 'GPIOPlugin.mon'),
-			join(ApamaWorkMonitors, 'BlinktHelper.mon')
+			join(self.BlinktMonitors, 'BlinktHelper.mon')
 		])
 		self.waitForSignal(self.correlatorLog, expr="Blinkt initialised")
 

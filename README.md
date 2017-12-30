@@ -104,6 +104,12 @@ Tests and samples for the `BlinktPlugin` and `BlinktHelper` are provided as PySy
   
 Each test directory contains a `run.py` script that controls and verifies the test. The `Input` directory of most of the `BlinktPlugin` tests will contain the EPL code executed by the test (usually called `Test.mon`) and some tests will make use of the EPL samples in the `objects` directory, such as `BlinktRainbow.mon`.
 
+By default the tests will use the BlinktPlugin library and EPL wrapper from the project directory, which should be the latest, not necessarily installed, version. To use the version that has been installed under `$APAMA_WORK`, add the `-XTEST_AGAINST_INSTALL` option to your `pysys run` command, for example:
+
+  ```
+  $ pysys run -XTEST_AGAINST_INSTALL BlinktPlugin_002
+  ```
+
 Use `pysys -h` or `pysys <command> -h`, e.g. `pysys run -h` for more information about using PySys, or see the detailed API documentation at http://pysys.sourceforge.net/.
 
 
