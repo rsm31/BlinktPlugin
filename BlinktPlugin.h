@@ -220,9 +220,6 @@ public:
 
 
 private:
-	// True if the global lock has been initialised
-	static bool initialised;
-
 	// Plugin reference count
 	static unsigned RefCount;
 
@@ -231,13 +228,6 @@ private:
 
 	// Global lock for all plugin functions
 	static std::mutex Mutex;
-
-
-	// Increment the plugin reference count
-	static void IncrementRefCount();
-
-	// Decrement the plugin reference count
-	static void DecrementRefCount();
 };
 
 // Make the plugin available to EPL

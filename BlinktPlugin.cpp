@@ -23,33 +23,19 @@
 #include <wiringPi.h>
 
 
-bool BlinktPlugin::initialised = false;
 unsigned BlinktPlugin::RefCount = 0;
 bool BlinktPlugin::ResetOnUnload = true;
 std::mutex BlinktPlugin::Mutex;
 
 
 BlinktPlugin::BlinktPlugin(): base_plugin_t("BlinktPlugin") {
-	// No one-off initialisation needed currently
-	if (!initialised) {
-		initialised = true;
-	}
-	BlinktPlugin::IncrementRefCount();
-}
-
-BlinktPlugin::~BlinktPlugin() {
-	// Maybe reset Blinkt if refcount reaches zero
-	BlinktPlugin::DecrementRefCount();
-}
-
-
-void BlinktPlugin::IncrementRefCount() {
+	// Nothing to do here except increment the reference count
 	std::lock_guard<std::mutex> lock(Mutex);
 	RefCount++;
 }
 
-// Reset Blinkt when refcount reaches zero, if enabled
-void BlinktPlugin::DecrementRefCount() {
+BlinktPlugin::~BlinktPlugin() {
+	// Maybe reset Blinkt! if the reference count reaches zero
 	std::lock_guard<std::mutex> lock(Mutex);
 	if (RefCount > 0 && --RefCount == 0 && ResetOnUnload) {
 		blinkt_reset();
@@ -59,7 +45,7 @@ void BlinktPlugin::DecrementRefCount() {
 
 
 // Plugin functions available through EPL
-// Mostly just map through to wiringPi or blinkt_functions
+// Mostly these just map through to wiringPi or blinkt_functions
 
 void BlinktPlugin::setLED(int64_t num, int64_t red, int64_t green, int64_t blue, double intensity) {
 	std::lock_guard<std::mutex> lock(Mutex);
