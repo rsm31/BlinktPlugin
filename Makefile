@@ -24,7 +24,7 @@ LDLIBS = -lwiringPi
 PLUGIN_LIBS = -lapclient
 
 PLUGIN_CPPFLAGS = -I$(APAMA_HOME)/include
-PLUGIN_CXXFLAGS = --std=c++0x -fPIC
+PLUGIN_CXXFLAGS = --std=c++11 -fPIC
 PLUGIN_LDFLAGS = -shared -L$(APAMA_HOME)/lib
 
 LIBDIR = $(APAMA_WORK)/lib
