@@ -46,7 +46,7 @@ This software requires the following:
 
 5. Apama version 10.1 or higher. The Apama Core Community Edition for Raspberry Pi can be downloaded from http://www.apamacommunity.com/downloads/.
 
-6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. This version of the GPIOPlugin will also run on Apama 10.1. An experimental version of the plugin for Apama 10.1 can also be found at https://github.com/CallumAttryde/apama_GPIO. The plugin should be built and installed in your Apama installation.
+6. The `GPIOPlugin` for Apama, compatible with the version of Apama you are using. The `GPIOPlugin` for Apama 9.12 can be downloaded from http://www.apamacommunity.com/gpio-plugin-for-apama-core-community-edition-on-a-raspberry-pi/. This version of the GPIOPlugin will also run on Apama 10.1. An experimental version of the plugin for Apama 10.1 can also be found at https://github.com/CallumAttryde/apama_GPIO. The plugin should be built and installed somewhere that it can be loaded by your Apama installation, typically under the `$APAMA_WORK` directory.  Note that `$APAMA_WORK/lib` is on the default Apama shared library path so plugins installed here can be used without any additional configuration.
 
 
 ## Build & Installation
@@ -55,9 +55,9 @@ Building and installing the `BlinktPlugin` is straightforward. All of the shell 
 
 1. Ensure that all the required hardware and software listed in the previous section is installed and working.
 
-2. Set up the Apama environment, where `<APAMA_HOME>` is the root of your Apama installation:
+2. Set up the Apama environment, where `$APAMA_HOME` is the root of your Apama installation:
   ```
-  $ . <APAMA_HOME>/bin/apama_env
+  $ . $APAMA_HOME/bin/apama_env
   ```
 
 3. Change directory to the root of the `BlinktPlugin` distribution and build everything:
