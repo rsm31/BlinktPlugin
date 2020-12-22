@@ -3,3 +3,4 @@ blinkt_test
 *.o
 *.so
 *.pyc
+tests/**/Output
