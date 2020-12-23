@@ -5,7 +5,7 @@ Apama plugin for Raspberry Pi Blinkt! LED module
 
 ## Introduction
 
-The Blinkt! is a strip of 8 APA102C RGB LED modules that can be attached to the 40-pin GPIO connector on a Raspberry Pi Model B and controlled using a simple two-wire SPI protocol. The `BlinktPlugin` software makes the Blinkt! accessible to Apama EPL developers through an EPL plugin and helper object. The goal is to demonstrate how to straightforwardly integrate real hardware with Apama and control it from EPL.
+The Blinkt! is a strip of 8 APA102C RGB LED modules that can be attached to the 40-pin GPIO connector on a Raspberry Pi and controlled using a simple two-wire SPI protocol. The `BlinktPlugin` software makes the Blinkt! accessible to Apama EPL developers through an EPL plugin and helper object. The goal is to demonstrate how to straightforwardly integrate real hardware with Apama and control it from EPL.
 
 The APA102C LED modules used in the Blinkt! are controllable for both colour and overall intensity or brightness. Colour values for the LEDs are RGB (red, green, blue) triplets with a range of zero to 255 inclusive. The plugin handles values outside this range by simply using the least significant 8 bits of the integer as the colour value and ignoring the rest.
 
@@ -15,7 +15,7 @@ The plugin keeps an internal colour/intensity state for each LED that is only tr
 
 For more information on the Blinkt! hardware and other language APIs see:
 - https://shop.pimoroni.com/products/blinkt (Blinkt! product page)
-- https://github.com/pimoroni/blinkt (Blinkt! Python library GitHub project)
+- https://github.com/pimoroni/blinkt/ (Blinkt! Python library GitHub project)
 - https://pinout.xyz/pinout/blinkt (Blinkt! pinout diagram)
 - https://cdn-shop.adafruit.com/datasheets/APA102.pdf (APA102C datasheet)
 
@@ -49,7 +49,7 @@ This software requires the following:
 
 5. The Apama streaming analytics engine, version 10.5 or higher. The Apama Core Community Edition for Raspberry Pi can be downloaded from https://www.apamacommunity.com/downloads/.
 
-6. The `GPIOPlugin` for Apama 10.x, available from https://github.com/CallumAttryde/apama_GPIO. The plugin should be built and installed somewhere that it can be loaded by your Apama installation, typically under the `$APAMA_WORK` directory.  Note that `$APAMA_WORK/lib` is on the default Apama shared library path so plugins installed here can be used without any additional configuration. More information about the plugin can be found at https://www.apamacommunity.com/innovation-week-results/.
+6. The `GPIOPlugin` for Apama 10.x, available from https://github.com/CallumAttryde/apama_GPIO/. The plugin should be built and installed somewhere that it can be loaded by your Apama installation, typically under the `$APAMA_WORK` directory.  Note that `$APAMA_WORK/lib` is on the default Apama shared library path so plugins installed here can be used without any additional configuration. More information about the plugin can be found at https://www.apamacommunity.com/innovation-week-results/.
 
 
 ## Build & Installation
