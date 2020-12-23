@@ -27,12 +27,12 @@
 </TR>
 <TR>
 <TD COLSPAN="2" BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
 <TR ALIGN="center" VALIGN="top">
 <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;
               </TD><TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"><A HREF="../..//rpi/blinkt/package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A></TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;
               </TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT>&nbsp;
-                </A></TD>
+                </A></TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1" WIDTH="100%" ALIGN="RIGHT"></TD>
 </TR>
 </TABLE>
 </TD><TD ALIGN="right" VALIGN="top" ROWSPAN="3"><EM></EM></TD>
@@ -45,24 +45,28 @@
 <H2>
 <FONT SIZE="-1">rpi.blinkt</FONT>
 <BR>Event BlinktHelper</H2>
-<HR>Helper event for the Blinkt Plugin, to control a Pimoroni Blinkt APA102 LED board from Apama EPL. Requires the Blinkt Plugin to be installed. It is recommended to always use the helper event in your EPL code rather than invoking the plugin directly.<br>
-<br> The Blinkt! is a strip of 8 APA102 RGB LED modules that can be attached to the 40-pin GPIO connector on a Raspberry Pi Model B and controlled using a simple two-wire SPI protocol. The BlinktPlugin software makes the Blinkt! accessible to Apama EPL developers through an EPL plugin and helper object. The goal is to demonstrate how to straightforwardly integrate real hardware with Apama and control it from EPL.<br>
-<br> Colour values for the Blinkt LEDs are RGB (red, green, blue) triplets with a range of zero to 255. Values outside this range are handled by simply using the least significant 8 bits of the integer as the colour value and ignoring the rest.<br>
-<br> Intensity values for the Blinkt LEDs are floating point values with a range of 0.0 to 1.0. Values less than zero will cause the intensity to be left unchanged, although using the setRGB() or setAllRGB() actions is an easier way to do this. Values greater than 1.0 are treated as though they were 1.0, i.e. maximum intensity.<br>
-<br> The plugin keeps an internal colour/intensity state for each LED that is only transferred to the real LEDs when the refresh() action is called. This is the only way to change the state of the physical LEDs. The effects of any number of preceding set*() and reset() calls will become visible only when refresh() is called.<DL>
+<HR>Helper event for the Blinkt Plugin, to control a Pimoroni Blinkt! APA102C LED board from Apama EPL. Requires the Blinkt Plugin to be installed. It is recommended to always use the helper event in your EPL code rather than invoking the plugin directly.<br>
+<br> The Blinkt! is a strip of 8 APA102C RGB LED modules that can be attached to the 40-pin GPIO connector on a Raspberry Pi and controlled using a simple two-wire SPI protocol. The <tt>BlinktPlugin</tt> software makes the Blinkt! accessible to Apama EPL developers through an EPL plugin and helper object. The goal is to demonstrate how to straightforwardly integrate real hardware with Apama and control it from EPL.<br>
+<br> The APA102C LED modules used in the Blinkt! are controllable for both colour and overall intensity or brightness. Colour values for the LEDs are RGB (red, green, blue) triplets with a range of zero to 255 inclusive. The plugin handles values outside this range by simply using the least significant 8 bits of the integer as the colour value and ignoring the rest.<br>
+<br> Intensity values for the LEDs are represented as floating point numbers with a range of 0.0 to 1.0 inclusive. Values less than zero will cause the intensity to be left unchanged, although using the <tt>setRGB()</tt> or <tt>setAllRGB()</tt> actions on the helper object is an easier way to change the colour of the LEDs without affecting the intensity. Values greater than 1.0 are treated as though they were 1.0, i.e. maximum intensity.<br>
+<br> The plugin keeps an internal colour/intensity state for each LED that is only transferred to the real LEDs when the <tt>refresh()</tt> action is called. This is the only way to change the state of the physical LEDs. The effects of any number of preceding <tt>set*()</tt> and <tt>reset()</tt> actions will become visible only when <tt>refresh()</tt> is called.<DL>
 <DT>
 <B>See Also:</B>
 </DT>
 <DD>
-<A HREF="https://github.com/pimoroni/blinkt">https://github.com/pimoroni/blinkt</A>&nbsp;-&nbsp;Blinkt! project on GitHub</DD>
+<A HREF="https://shop.pimoroni.com/products/blinkt">https://shop.pimoroni.com/products/blinkt</A>&nbsp;-&nbsp;Blinkt! product page</DD>
 <DD>
-<A HREF="https://cdn-shop.adafruit.com/product-files/2343/APA102C.pdf">https://cdn-shop.adafruit.com/product-files/2343/APA102C.pdf</A>&nbsp;-&nbsp;APA102 datasheet</DD>
+<A HREF="https://github.com/pimoroni/blinkt/">https://github.com/pimoroni/blinkt/</A>&nbsp;-&nbsp;Blinkt! Python library GitHub project</DD>
+<DD>
+<A HREF="https://pinout.xyz/pinout/blinkt">https://pinout.xyz/pinout/blinkt</A>&nbsp;-&nbsp;Blinkt! pinout diagram</DD>
+<DD>
+<A HREF="https://cdn-shop.adafruit.com/datasheets/APA102.pdf">https://cdn-shop.adafruit.com/datasheets/APA102.pdf</A>&nbsp;-&nbsp;APA102C datasheet</DD>
 </DL>
 <HR>
 <A NAME="import_summary"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2"><B>Import Summary</B></FONT></TH>
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2"><B>Import summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;BlinktPlugin</CODE></FONT></TD><TD><CODE><B><A HREF="BlinktHelper.html#blinkt">blinkt</A></B></CODE>
@@ -72,7 +76,7 @@
 </TABLE>&nbsp;<A NAME="action_summary"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2"><B>Action Summary</B></FONT></TH>
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2"><B>Action summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#delay()">delay</A></B>(integer&nbsp;millis)</CODE>
@@ -82,7 +86,7 @@
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;boolean</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#enableDebug()">enableDebug</A></B>(boolean&nbsp;enable)</CODE>
 <br>
-<br>Enable or disable debugging output from the plugin. When enabled, debug output is sent to stdout.</TD>
+<br>Enable or disable debugging output from the plugin. When enabled, debug output is sent to <tt>stdout</tt>.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;boolean</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#enableResetOnUnload()">enableResetOnUnload</A></B>(boolean&nbsp;enable)</CODE>
@@ -92,47 +96,47 @@
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#refresh()">refresh</A></B>()</CODE>
 <br>
-<br>Update all the Blinkt LEDs to match the internal colour and intensity state of the plugin, making the effects of all previous set*() calls visible.</TD>
+<br>Update all the Blinkt LEDs to match the internal colour and intensity state of the plugin, making the effects of all previous <tt>set*()</tt> calls visible.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#reset()">reset</A></B>()</CODE>
 <br>
-<br>Set all Blinkt LEDs to no colour (red, green and blue all zero) and zero intensity. The refresh() action must be call to make the effects of a reset visible.</TD>
+<br>Set all Blinkt LEDs to no colour (red, green and blue all zero) and zero intensity. The <tt>refresh()</tt> action must be call to make the effects of a reset visible.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setAllI()">setAllI</A></B>(float&nbsp;intensity)</CODE>
 <br>
-<br>Set the intensity of all Blinkt LEDs, leaving the colour unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the intensity of all Blinkt LEDs, leaving the colour unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setAllRGB()">setAllRGB</A></B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</CODE>
 <br>
-<br>Set the colour of all Blinkt LEDs, leaving the intensity unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the colour of all Blinkt LEDs, leaving the intensity unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setAllRGBI()">setAllRGBI</A></B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</CODE>
 <br>
-<br>Set the colour and intensity of all Blinkt LEDs. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the colour and intensity of all Blinkt LEDs. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setI()">setI</A></B>(integer&nbsp;led,&nbsp;float&nbsp;intensity)</CODE>
 <br>
-<br>Set the intensity of a Blinkt LED, leaving the colour unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the intensity of a Blinkt LED, leaving the colour unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setRGB()">setRGB</A></B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</CODE>
 <br>
-<br>Set the colour of a Blinkt LED, leaving the intensity unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the colour of a Blinkt LED, leaving the intensity unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1"><CODE>&nbsp;void</CODE></FONT></TD><TD><CODE></CODE><CODE><B><A HREF="BlinktHelper.html#setRGBI()">setRGBI</A></B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</CODE>
 <br>
-<br>Set the colour and intensity of a Blinkt LED. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.</TD>
+<br>Set the colour and intensity of a Blinkt LED. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.</TD>
 </TR>
 </TABLE>&nbsp;<A NAME="import_detail"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2"><B>Import Detail</B></FONT></TH>
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2"><B>Import detail</B></FONT></TH>
 </TR>
 </TABLE>
 <A NAME="blinkt"></A>
@@ -143,7 +147,7 @@
 <A NAME="action_detail"></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2"><B>Action Detail</B></FONT></TH>
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2"><B>Action detail</B></FONT></TH>
 </TR>
 </TABLE>
 <A NAME="delay()"></A>
@@ -158,7 +162,7 @@
 <HR>
 <A NAME="enableDebug()"></A>
 <H3>enableDebug</H3>
-<PRE>boolean&nbsp;<B>enableDebug</B>(boolean&nbsp;enable)</PRE>Enable or disable debugging output from the plugin. When enabled, debug output is sent to stdout.<DL>
+<PRE>boolean&nbsp;<B>enableDebug</B>(boolean&nbsp;enable)</PRE>Enable or disable debugging output from the plugin. When enabled, debug output is sent to <tt>stdout</tt>.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -190,13 +194,13 @@
 <HR>
 <A NAME="refresh()"></A>
 <H3>refresh</H3>
-<PRE>void&nbsp;<B>refresh</B>()</PRE>Update all the Blinkt LEDs to match the internal colour and intensity state of the plugin, making the effects of all previous set*() calls visible.<HR>
+<PRE>void&nbsp;<B>refresh</B>()</PRE>Update all the Blinkt LEDs to match the internal colour and intensity state of the plugin, making the effects of all previous <tt>set*()</tt> calls visible.<HR>
 <A NAME="reset()"></A>
 <H3>reset</H3>
-<PRE>void&nbsp;<B>reset</B>()</PRE>Set all Blinkt LEDs to no colour (red, green and blue all zero) and zero intensity. The refresh() action must be call to make the effects of a reset visible.<HR>
+<PRE>void&nbsp;<B>reset</B>()</PRE>Set all Blinkt LEDs to no colour (red, green and blue all zero) and zero intensity. The <tt>refresh()</tt> action must be call to make the effects of a reset visible.<HR>
 <A NAME="setAllI()"></A>
 <H3>setAllI</H3>
-<PRE>void&nbsp;<B>setAllI</B>(float&nbsp;intensity)</PRE>Set the intensity of all Blinkt LEDs, leaving the colour unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setAllI</B>(float&nbsp;intensity)</PRE>Set the intensity of all Blinkt LEDs, leaving the colour unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -206,7 +210,7 @@
 <HR>
 <A NAME="setAllRGB()"></A>
 <H3>setAllRGB</H3>
-<PRE>void&nbsp;<B>setAllRGB</B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</PRE>Set the colour of all Blinkt LEDs, leaving the intensity unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setAllRGB</B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</PRE>Set the colour of all Blinkt LEDs, leaving the intensity unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -220,7 +224,7 @@
 <HR>
 <A NAME="setAllRGBI()"></A>
 <H3>setAllRGBI</H3>
-<PRE>void&nbsp;<B>setAllRGBI</B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</PRE>Set the colour and intensity of all Blinkt LEDs. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setAllRGBI</B>(integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</PRE>Set the colour and intensity of all Blinkt LEDs. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -236,7 +240,7 @@
 <HR>
 <A NAME="setI()"></A>
 <H3>setI</H3>
-<PRE>void&nbsp;<B>setI</B>(integer&nbsp;led,&nbsp;float&nbsp;intensity)</PRE>Set the intensity of a Blinkt LED, leaving the colour unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setI</B>(integer&nbsp;led,&nbsp;float&nbsp;intensity)</PRE>Set the intensity of a Blinkt LED, leaving the colour unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -248,7 +252,7 @@
 <HR>
 <A NAME="setRGB()"></A>
 <H3>setRGB</H3>
-<PRE>void&nbsp;<B>setRGB</B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</PRE>Set the colour of a Blinkt LED, leaving the intensity unchanged. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setRGB</B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue)</PRE>Set the colour of a Blinkt LED, leaving the intensity unchanged. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -264,7 +268,7 @@
 <HR>
 <A NAME="setRGBI()"></A>
 <H3>setRGBI</H3>
-<PRE>void&nbsp;<B>setRGBI</B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</PRE>Set the colour and intensity of a Blinkt LED. This action just changes internal plugin state. Use the refresh() action to actually update the Blinkt LEDs.<DL>
+<PRE>void&nbsp;<B>setRGBI</B>(integer&nbsp;led,&nbsp;integer&nbsp;red,&nbsp;integer&nbsp;green,&nbsp;integer&nbsp;blue,&nbsp;float&nbsp;intensity)</PRE>Set the colour and intensity of a Blinkt LED. This action just changes internal plugin state. Use the <tt>refresh()</tt> action to actually update the Blinkt LEDs.<DL>
 <DT>
 <B>Parameters:</B>
 </DT>
@@ -294,12 +298,12 @@
 </TR>
 <TR>
 <TD COLSPAN="2" BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
 <TR ALIGN="center" VALIGN="top">
 <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;
               </TD><TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"><A HREF="../..//rpi/blinkt/package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A></TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;
               </TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><A HREF="../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT>&nbsp;
-                </A></TD>
+                </A></TD><TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1" WIDTH="100%" ALIGN="RIGHT"></TD>
 </TR>
 </TABLE>
 </TD><TD ALIGN="right" VALIGN="top" ROWSPAN="3"><EM></EM></TD>
